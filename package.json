@@ -1,0 +1,32 @@
+{
+  "name": "shopify-richtext-renderer",
+  "version": "1.0.0",
+  "description": "A flexible, Hydrogen friendly renderer for the Shopify Richtext field type.",
+  "scripts": {
+    "rollup": "rollup -c"
+  },
+  "author": "Novatize",
+  "license": "ISC",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.4",
+    "@rollup/plugin-node-resolve": "^15.2.1",
+    "@rollup/plugin-terser": "^0.4.3",
+    "@rollup/plugin-typescript": "^11.1.3",
+    "@types/react": "^18.2.21",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "rollup": "^3.28.1",
+    "rollup-plugin-dts": "^6.0.1",
+    "tslib": "^2.6.2",
+    "typescript": "^5.2.2"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0"
+  },
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "files": [
+    "dist"
+  ],
+  "types": "dist/index.d.ts"
+}
