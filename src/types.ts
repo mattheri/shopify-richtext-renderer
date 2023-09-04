@@ -1,4 +1,4 @@
-import type {FunctionComponent, HTMLAttributes} from 'react';
+import type {FunctionComponent, HTMLAttributes, ComponentType, ElementType, ComponentPropsWithoutRef, JSX} from 'react';
 import type {RichtextrendererConfig} from './utils/richtextRendererConfig';
 
 export type RichTextNode = {
@@ -33,26 +33,52 @@ export type FutureReactNode = {
   children?: string | FutureReactNode[];
 };
 
-export type ReactElementAttributes = {
-  customElement?: FunctionComponent<any> | string;
-} & HTMLAttributes<HTMLElement>;
+export type Props<T extends ElementType> = ComponentPropsWithoutRef<T>;
 
-export type ElementProps = {
-  h1?: ReactElementAttributes;
-  h2?: ReactElementAttributes;
-  h3?: ReactElementAttributes;
-  h4?: ReactElementAttributes;
-  h5?: ReactElementAttributes;
-  h6?: ReactElementAttributes;
-  paragraph?: ReactElementAttributes;
-  list?: ReactElementAttributes;
-  listItem?: ReactElementAttributes;
-  a?: ReactElementAttributes;
-  text?: ReactElementAttributes;
+export type ReactElementAttributes<Component extends ElementType> = {
+  customElement?: Component;
+} & Props<Component>;
+
+export type ElementProps<
+  H1 extends ElementType,
+  H2 extends ElementType,
+  H3 extends ElementType,
+  H4 extends ElementType,
+  H5 extends ElementType,
+  H6 extends ElementType,
+  Paragraph extends ElementType,
+  List extends ElementType,
+  ListItem extends ElementType,
+  A extends ElementType,
+  Text extends ElementType
+  > = {
+  h1?: ReactElementAttributes<H1>;
+  h2?: ReactElementAttributes<H2>;
+  h3?: ReactElementAttributes<H3>;
+  h4?: ReactElementAttributes<H4>;
+  h5?: ReactElementAttributes<H5>;
+  h6?: ReactElementAttributes<H6>;
+  paragraph?: ReactElementAttributes<Paragraph>;
+  list?: ReactElementAttributes<List>;
+  listItem?: ReactElementAttributes<ListItem>;
+  a?: ReactElementAttributes<A>;
+  text?: ReactElementAttributes<Text>;
 };
 
 export type NormalizedElementProps = {
-  [P in keyof ElementProps]?: Omit<ReactElementAttributes, 'customElement'>;
+  [P in keyof ElementProps<
+    any,
+    any,
+    any,
+    any,
+    any,
+    any,
+    any,
+    any,
+    any,
+    any,
+    any
+  >]?: Omit<ReactElementAttributes<any>, 'customElement'>;
 };
 
 export type Attributes = HTMLAttributes<HTMLElement>;

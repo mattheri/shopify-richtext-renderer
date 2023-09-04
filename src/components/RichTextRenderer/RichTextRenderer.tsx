@@ -1,23 +1,36 @@
-import type {ReactElementAttributes, RichTextNode} from '../../types';
-import type {HTMLAttributes} from 'react';
+import type {ElementProps, RichTextNode} from '../../types';
+import type {ElementType, HTMLAttributes} from 'react';
 
 import React from 'react';
 import createElement from '../../utils/createElement';
 import createNode from '../../utils/node';
 
-type Props = HTMLAttributes<HTMLElement> & {
-  data?: string | RichTextNode;
-  h1?: ReactElementAttributes;
-  h2?: ReactElementAttributes;
-  h3?: ReactElementAttributes;
-  h4?: ReactElementAttributes;
-  h5?: ReactElementAttributes;
-  h6?: ReactElementAttributes;
-  list?: ReactElementAttributes;
-  listItem?: ReactElementAttributes;
-  a?: ReactElementAttributes;
-  paragraph?: ReactElementAttributes;
-  text?: ReactElementAttributes;
+type Props<
+  H1 extends ElementType,
+  H2 extends ElementType,
+  H3 extends ElementType,
+  H4 extends ElementType,
+  H5 extends ElementType,
+  H6 extends ElementType,
+  Paragraph extends ElementType,
+  List extends ElementType,
+  ListItem extends ElementType,
+  A extends ElementType,
+  Text extends ElementType
+> = HTMLAttributes<HTMLElement> & ElementProps<
+    H1,
+    H2,
+    H3,
+    H4,
+    H5,
+    H6,
+    Paragraph,
+    List,
+    ListItem,
+    A,
+    Text
+  > & {
+  data: string | RichTextNode;
 };
 
 function getBaseNode(text: string): RichTextNode {
@@ -36,7 +49,19 @@ function getBaseNode(text: string): RichTextNode {
     ],
   };
 }
-export default function RichTextRenderer({
+export default function RichTextRenderer<
+  H1 extends ElementType = "h1",
+  H2 extends ElementType = "h2",
+  H3 extends ElementType = "h3",
+  H4 extends ElementType = "h4",
+  H5 extends ElementType = "h5",
+  H6 extends ElementType = "h6",
+  Paragraph extends ElementType = "p",
+  List extends ElementType = "ul",
+  ListItem extends ElementType = "li",
+  A extends ElementType = "a",
+  Text extends ElementType = "span"
+  >({
   data,
   h1,
   h2,
@@ -50,7 +75,19 @@ export default function RichTextRenderer({
   paragraph,
   text,
   ...props
-}: Props) {
+  }: Props<
+    H1,
+    H2,
+    H3,
+    H4,
+    H5,
+    H6,
+    Paragraph,
+    List,
+    ListItem,
+    A,
+    Text
+    >) {
   if (data) {
     let node: RichTextNode;
     try {
