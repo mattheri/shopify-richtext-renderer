@@ -1,15 +1,21 @@
-import type {FunctionComponent, HTMLAttributes, ComponentType, ElementType, ComponentPropsWithoutRef, JSX} from 'react';
-import type {RichtextrendererConfig} from './utils/richtextRendererConfig';
+import type {
+  FunctionComponent,
+  HTMLAttributes,
+  ElementType,
+  ComponentPropsWithoutRef,
+  CSSProperties,
+} from "react";
+import type { RichtextrendererConfig } from "./utils/richtextRendererConfig";
 
 export type RichTextNode = {
   type:
-    | 'root'
-    | 'paragraph'
-    | 'list'
-    | 'list-item'
-    | 'heading'
-    | 'text'
-    | 'link';
+    | "root"
+    | "paragraph"
+    | "list"
+    | "list-item"
+    | "heading"
+    | "text"
+    | "link";
   level?: number;
   children?: RichTextNode[];
   value?: string;
@@ -18,17 +24,17 @@ export type RichTextNode = {
   url?: string;
   target?: string;
   title?: string;
-  listType?: 'ordered' | 'unordered';
+  listType?: "ordered" | "unordered";
 };
 
 export type FutureReactNode = {
   type: string | FunctionComponent<any>;
   attributes: {
-    key: string;
+    key?: string;
     href?: string;
     target?: string;
     title?: string;
-    style?: string;
+    style?: CSSProperties;
   };
   children?: string | FutureReactNode[];
 };
@@ -36,7 +42,7 @@ export type FutureReactNode = {
 export type Props<T extends ElementType> = ComponentPropsWithoutRef<T>;
 
 export type ReactElementAttributes<Component extends ElementType> = {
-  customElement?: Component;
+  as?: Component;
 } & Props<Component>;
 
 export type ElementProps<
@@ -51,7 +57,7 @@ export type ElementProps<
   ListItem extends ElementType,
   A extends ElementType,
   Text extends ElementType
-  > = {
+> = {
   h1?: ReactElementAttributes<H1>;
   h2?: ReactElementAttributes<H2>;
   h3?: ReactElementAttributes<H3>;
@@ -78,7 +84,7 @@ export type NormalizedElementProps = {
     any,
     any,
     any
-  >]?: Omit<ReactElementAttributes<any>, 'customElement'>;
+  >]?: Omit<ReactElementAttributes<any>, "customElement">;
 };
 
 export type ElementPropsGeneric = ElementProps<

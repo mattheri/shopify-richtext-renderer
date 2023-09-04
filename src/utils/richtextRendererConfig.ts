@@ -1,5 +1,5 @@
-import type {Attributes} from '../types';
-import type {FunctionComponent} from 'react';
+import type { Attributes } from "../types";
+import type { ElementType, FunctionComponent } from "react";
 
 const richtextrendererConfig = {
   h1: {},
@@ -17,8 +17,8 @@ const richtextrendererConfig = {
 
 export type RichtextrendererConfig = {
   [P in keyof typeof richtextrendererConfig]?: {
-    customComponent?: FunctionComponent<any>;
-    attributes?: Attributes;
+    as?: ElementType | FunctionComponent;
+    attributes?: Attributes & Record<string, unknown>;
   };
 };
 

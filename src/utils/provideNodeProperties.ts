@@ -2,37 +2,38 @@ import type {
   RichTextNode,
   NormalizedElementProps,
   ElementPropsGeneric,
-} from '../types';
-import type {FunctionComponent} from 'react';
+} from "../types";
+import type { FunctionComponent } from "react";
 
-import richtextrendererConfig from './richtextRendererConfig';
+import richtextrendererConfig from "./richtextRendererConfig";
 
 const nodeTypeMap = {
-  heading: ['p', 'p', 'p', 'p', 'p', 'p'],
+  heading: ["p", "p", "p", "p", "p", "p"],
   list: {
-    ordered: 'ol',
-    unordered: 'ul',
+    ordered: "ol",
+    unordered: "ul",
   },
-  "list-item": 'li',
-  link: 'a',
-  paragraph: 'p',
-  text: 'span',
-  break: 'br',
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  "list-item": "li",
+  link: "a",
+  paragraph: "p",
+  text: "span",
+  break: "br",
 };
 
 export default function provideNodeProperties(
   node: RichTextNode,
-  elementProps?: ElementPropsGeneric,
+  elementProps?: ElementPropsGeneric
 ) {
   const nodeLevel = node.level ?? 1;
   let defaultNode: string;
 
-  if (node.type === 'heading') {
+  if (node.type === "heading") {
     defaultNode = nodeTypeMap.heading[nodeLevel - 1];
-  } else if (node.type === 'list') {
-    defaultNode = nodeTypeMap.list[node.listType ?? 'unordered'];
-  } else if (node.type === 'root') {
-    defaultNode = 'div';
+  } else if (node.type === "list") {
+    defaultNode = nodeTypeMap.list[node.listType ?? "unordered"];
+  } else if (node.type === "root") {
+    defaultNode = "div";
   } else {
     defaultNode = nodeTypeMap[node.type];
   }
@@ -46,23 +47,21 @@ export default function provideNodeProperties(
 
       const tValue = Object.assign({}, value);
       const key = _key as keyof ElementPropsGeneric;
-      delete tValue.customElement;
+      delete tValue.as;
       acc[key] = tValue;
 
       return acc;
     },
-    {} as NormalizedElementProps,
+    {} as NormalizedElementProps
   );
 
   let type: string | FunctionComponent;
 
-  if (!node.value && node.type === 'text') {
+  if (!node.value && node.type === "text") {
     type = nodeTypeMap.break;
   } else {
     type =
-      elementProps?.[key]?.customElement ??
-      richtextrendererConfig[key]?.customComponent ??
-      defaultNode;
+      elementProps?.[key]?.as ?? richtextrendererConfig[key]?.as ?? defaultNode;
   }
 
   return {
@@ -71,8 +70,8 @@ export default function provideNodeProperties(
       type === nodeTypeMap.break
         ? null
         : {
-          ...(richtextrendererConfig[key]?.attributes ?? {}),
-          ...(elementPropsAttributesOnly?.[key] ?? {}),
-        },
+            ...(richtextrendererConfig[key]?.attributes ?? {}),
+            ...(elementPropsAttributesOnly?.[key] ?? {}),
+          },
   };
 }

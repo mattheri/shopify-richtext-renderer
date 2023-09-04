@@ -1,5 +1,4 @@
 export const NON_VALID_ATTRIBUTES = {
-  TYPE: 'type',
-  LEVEL: 'level',
+  TYPE: "type",
+  LEVEL: "level",
 };
-

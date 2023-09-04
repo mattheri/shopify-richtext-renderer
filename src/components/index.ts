@@ -1,1 +1,1 @@
-export { default as RichTextRenderer } from './RichTextRenderer';
+export { default as RichTextRenderer } from "./RichTextRenderer";

@@ -1,9 +1,9 @@
-import type {ElementProps, RichTextNode} from '../../types';
-import type {ElementType, HTMLAttributes} from 'react';
+import type { ElementProps, RichTextNode } from "../../types";
+import type { ElementType, HTMLAttributes } from "react";
 
-import React from 'react';
-import createElement from '../../utils/createElement';
-import createNode from '../../utils/node';
+import React from "react";
+import createElement from "../../utils/createElement";
+import createNode from "../../utils/node";
 
 type Props<
   H1 extends ElementType,
@@ -17,31 +17,20 @@ type Props<
   ListItem extends ElementType,
   A extends ElementType,
   Text extends ElementType
-> = HTMLAttributes<HTMLElement> & ElementProps<
-    H1,
-    H2,
-    H3,
-    H4,
-    H5,
-    H6,
-    Paragraph,
-    List,
-    ListItem,
-    A,
-    Text
-  > & {
-  data: string | RichTextNode;
-};
+> = HTMLAttributes<HTMLElement> &
+  ElementProps<H1, H2, H3, H4, H5, H6, Paragraph, List, ListItem, A, Text> & {
+    data: string | RichTextNode;
+  };
 
 function getBaseNode(text: string): RichTextNode {
   return {
-    type: 'root',
+    type: "root",
     children: [
       {
-        type: 'paragraph',
+        type: "paragraph",
         children: [
           {
-            type: 'text',
+            type: "text",
             value: text,
           },
         ],
@@ -61,7 +50,7 @@ export default function RichTextRenderer<
   ListItem extends ElementType = "li",
   A extends ElementType = "a",
   Text extends ElementType = "span"
-  >({
+>({
   data,
   h1,
   h2,
@@ -75,25 +64,13 @@ export default function RichTextRenderer<
   paragraph,
   text,
   ...props
-  }: Props<
-    H1,
-    H2,
-    H3,
-    H4,
-    H5,
-    H6,
-    Paragraph,
-    List,
-    ListItem,
-    A,
-    Text
-    >) {
+}: Props<H1, H2, H3, H4, H5, H6, Paragraph, List, ListItem, A, Text>) {
   if (data) {
     let node: RichTextNode;
     try {
-      node = typeof data === 'string' ? JSON.parse(data) : data;
+      node = typeof data === "string" ? JSON.parse(data) : data;
     } catch (e) {
-      node = typeof data === 'string' ? getBaseNode(data) : getBaseNode('');
+      node = typeof data === "string" ? getBaseNode(data) : getBaseNode("");
     }
 
     const elementProps = {

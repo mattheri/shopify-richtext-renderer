@@ -1,13 +1,13 @@
-import type {FutureReactNode} from '../types';
+import type { FutureReactNode } from "../types";
 
-import {createElement as _createElement} from 'react';
-import cleanAttributes from './cleanAttributes';
+import { createElement as _createElement } from "react";
+import cleanAttributes from "./cleanAttributes";
 
 export default function createElement(
-  node: FutureReactNode,
+  node: FutureReactNode
 ): ReturnType<typeof _createElement> {
   const children =
-    typeof node.children === 'string'
+    typeof node.children === "string"
       ? node.children
       : node.children?.map((child) => createElement(child));
 
