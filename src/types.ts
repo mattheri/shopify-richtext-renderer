@@ -81,6 +81,20 @@ export type NormalizedElementProps = {
   >]?: Omit<ReactElementAttributes<any>, 'customElement'>;
 };
 
+export type ElementPropsGeneric = ElementProps<
+  any,
+  any,
+  any,
+  any,
+  any,
+  any,
+  any,
+  any,
+  any,
+  any,
+  any
+>;
+
 export type Attributes = HTMLAttributes<HTMLElement>;
 
 export type Config = RichtextrendererConfig;

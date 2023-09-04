@@ -1,11 +1,12 @@
-import type {ElementProps, FutureReactNode, RichTextNode} from '../types';
+import type {ElementPropsGeneric, FutureReactNode, RichTextNode} from '../types';
 import provideNodeProperties from './provideNodeProperties';
+import richtextrendererConfig from './richtextRendererConfig';
 
 export default function createNode(
   node: RichTextNode,
-  elementProps?: ElementProps,
+  elementProps?: ElementPropsGeneric,
 ): FutureReactNode {
-  const {type, nodeAttributes} = provideNodeProperties(node, elementProps);
+  const { type, nodeAttributes } = provideNodeProperties(node, elementProps);
 
   const styles = [
     node.bold ? ['fontWeight', 'bold'] : [],
@@ -13,7 +14,7 @@ export default function createNode(
   ];
 
   const attributes = {
-    key: Math.random().toString(36),
+    key: `${node.type}-${Math.random().toString(36)}`,
     ...(nodeAttributes ?? {}),
     ...(node.url ? {href: node.url} : {}),
     ...(node.target ? {target: node.target} : {}),
