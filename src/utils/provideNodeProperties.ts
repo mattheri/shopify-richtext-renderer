@@ -21,6 +21,17 @@ const nodeTypeMap = {
   break: "br",
 };
 
+const keyMap: { [P in RichTextNode["type"]]: string } = {
+  heading: "heading",
+  list: "list",
+  link: "a",
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  "list-item": "listItem",
+  paragraph: "paragraph",
+  text: "text",
+  root: "root",
+};
+
 export default function provideNodeProperties(
   node: RichTextNode,
   elementProps?: ElementPropsGeneric
@@ -39,7 +50,7 @@ export default function provideNodeProperties(
   }
 
   const key = (
-    node.level ? `h${node.level}` : node.type
+    node.level || node.type === "heading" ? `h${nodeLevel}` : keyMap[node.type]
   ) as keyof typeof richtextrendererConfig;
   const elementPropsAttributesOnly = Object.entries(elementProps ?? {}).reduce(
     (acc, [_key, value]) => {

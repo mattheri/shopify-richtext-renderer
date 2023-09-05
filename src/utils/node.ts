@@ -16,11 +16,14 @@ export default function createNode(
     node.italic ? ["fontStyle", "italic"] : [],
   ];
 
+  const url = nodeAttributes?.href ?? node.url;
+  const target = nodeAttributes?.target ?? node.target;
+
   const attributes = {
     key: `${node.type}-${Math.random().toString(36)}`,
     ...(nodeAttributes ?? {}),
-    ...(node.url ? { href: node.url } : {}),
-    ...(node.target ? { target: node.target } : {}),
+    ...(url ? { href: url } : {}),
+    ...(target ? { target } : node.type === "link" ? { target: "_blank" } : {}),
     ...(node.title ? { title: node.title } : {}),
     ...(node.bold || node.italic
       ? {

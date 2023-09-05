@@ -22,6 +22,92 @@ describe("provideNodeProperties", () => {
     expect(provideNodeProperties(node)).toMatchObject(expected);
   });
 
+  test("should return a node type p", () => {
+    const node: RichTextNode = {
+      type: "paragraph",
+      value: "Hello world!",
+      bold: true,
+      italic: true,
+      title: "Hello world!",
+      children: [],
+    };
+    const expected = {
+      type: "p",
+      nodeAttributes: {},
+    };
+
+    expect(provideNodeProperties(node)).toMatchObject(expected);
+  });
+
+  test("should return a node type p for a heading by default", () => {
+    const node: RichTextNode = {
+      type: "heading",
+      level: 1,
+      value: "Hello world!",
+      bold: true,
+      italic: true,
+      title: "Hello world!",
+      children: [],
+    };
+    const expected = {
+      type: "p",
+      nodeAttributes: {},
+    };
+
+    expect(provideNodeProperties(node)).toMatchObject(expected);
+  });
+
+  test("should provide a default level of 1 for a heading", () => {
+    const config: Config = {
+      h1: {
+        as: "h1",
+      },
+    };
+    setRichtextRendererConfig(config);
+
+    const node: RichTextNode = {
+      type: "heading",
+      value: "Hello world!",
+      bold: true,
+      italic: true,
+      title: "Hello world!",
+      children: [],
+    };
+
+    const expected = {
+      type: "h1",
+      nodeAttributes: {},
+    };
+
+    expect(provideNodeProperties(node)).toMatchObject(expected);
+  });
+
+  test("should return a unordered list type by default", () => {
+    const node: RichTextNode = {
+      type: "list",
+      children: [],
+    };
+    const expected = {
+      type: "ul",
+      nodeAttributes: {},
+    };
+
+    expect(provideNodeProperties(node)).toMatchObject(expected);
+  });
+
+  test("should return a br type if no value and the type is text", () => {
+    const node: RichTextNode = {
+      type: "text",
+      children: [],
+    };
+    const expected = {
+      type: "br",
+      nodeAttributes: {},
+    };
+
+    expect(provideNodeProperties(node)).toMatchObject(expected);
+  });
+
   test("should return a node type and node attributes with elementProps", () => {
     const node: RichTextNode = {
       type: "paragraph",
