@@ -23,6 +23,8 @@ describe("setRichtextRendererConfig", () => {
   test("should throw error when config is not an object", () => {
     const newConfig = "test";
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     expect(() => setRichtextRendererConfig(newConfig)).toThrowError(
       "Config must be an object"
     );

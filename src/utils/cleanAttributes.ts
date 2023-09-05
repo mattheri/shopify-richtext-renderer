@@ -1,6 +1,6 @@
 import { NON_VALID_ATTRIBUTES } from "./constants";
 
-export default function cleanAttributes(attr: Record<string, string>) {
+export default function cleanAttributes(attr: Record<string, unknown>) {
   return Object.fromEntries(
     Object.entries(attr)
       .map(([key, value]) => {
