@@ -122,4 +122,51 @@ describe("RichTextRenderer", () => {
 
     expect(container.innerHTML).toBe(html);
   });
+
+  test("renders correct react element with global configuration", () => {
+    const FancyReactElement = ({
+      children,
+      ...props
+    }: React.HTMLAttributes<HTMLElement>) => (
+      <div data-fancy-el {...props}>
+        {children}
+      </div>
+    );
+
+    const config: Config = {
+      paragraph: {
+        as: FancyReactElement,
+      },
+    };
+
+    setRichtextRendererConfig(config);
+
+    const html =
+      '<div><div><div data-fancy-el="true"><span>Award-winning mineral sunscreens formulated with non-nano zinc oxide, the safest sunscreen according to the EWG.</span></div></div></div>';
+    const { container } = render(<RichTextRenderer data={richTextData} />);
+
+    expect(container.innerHTML).toBe(html);
+  });
+
+  test("renders correct react element with props configuration", () => {
+    const FancyReactElement = ({
+      children,
+      ...props
+    }: React.HTMLAttributes<HTMLElement>) => (
+      <div data-fancy-el {...props}>
+        {children}
+      </div>
+    );
+
+    const html =
+      '<div><div><div data-fancy-el="true"><span>Award-winning mineral sunscreens formulated with non-nano zinc oxide, the safest sunscreen according to the EWG.</span></div></div></div>';
+    const { container } = render(
+      <RichTextRenderer
+        data={richTextData}
+        paragraph={{ as: FancyReactElement }}
+      />
+    );
+
+    expect(container.innerHTML).toBe(html);
+  });
 });
