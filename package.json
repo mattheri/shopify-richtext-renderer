@@ -1,6 +1,6 @@
 {
   "name": "@novatize-mattheri/shopify-richtext-renderer",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "A flexible, Hydrogen friendly renderer for the Shopify Richtext field type.",
   "scripts": {
     "rollup": "rollup -c",
