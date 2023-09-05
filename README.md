@@ -50,7 +50,7 @@ function App({richText}: Props) {
     <RichTextRenderer 
       data={richText}
       h1={{
-        className: 'text-xxl'
+        className: 'text-2xl'
       }}
       h2={{
         className: 'text-xl',
@@ -88,6 +88,31 @@ function App({richText}: Props) {
 }
 ```
 
+### Provide another element
+
+Another element can be passed either as a prop or through the global config.
+
+```typescript
+import type {RichTextNode} from '@novatize-mattheri/shopify-richtext-renderer'
+
+import {RichTextRenderer} from '@novatize-mattheri/shopify-richtext-renderer'
+
+type Props = {
+  richText: string | RichTextNode;
+}
+
+function App({richText}: Props) {
+  return (
+    <RichTextRenderer 
+      data={richText}
+      h1={{
+        as: 'span'
+      }}
+    />
+  );
+}
+```
+
 ### Provide a custom component
 
 A custom component can also be passed individually to render the elements. Simply make sure that it can render children as the nested elements are passed as childrens internally.
@@ -107,7 +132,7 @@ function App({richText}: Props) {
     <RichTextRenderer 
       data={richText}
       h1={{
-        customElement: MyHeading
+        as: MyHeading
       }}
     />
   );
@@ -129,8 +154,8 @@ import MyHeading from './MyHeading'
 
 export const config: Config = {
   h1: {
-    customElement: MyHeading,
-    className: 'text-xxl'
+    as: MyHeading,
+    className: 'text-2xl'
   }
 }
 ```
