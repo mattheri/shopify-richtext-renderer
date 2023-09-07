@@ -10,6 +10,10 @@ const richTextData =
 const stringData =
   "Award-winning mineral sunscreens formulated with non-nano zinc oxide, the safest sunscreen according to the EWG.";
 const noData = "";
+const emptyRichtextData =
+  '{"type":"root","children":[{"type":"heading","children":[{"type":"text","value":""}],"level":1}]}';
+const oneElementRichtextData =
+  '{"type":"root","children":[{"type":"heading","children":[{"type":"text","value":"Hello World"}],"level":1}]}';
 
 describe("RichTextRenderer", () => {
   test("renders", () => {
@@ -167,6 +171,19 @@ describe("RichTextRenderer", () => {
       />
     );
 
+    expect(container.innerHTML).toBe(html);
+  });
+
+  test("renders nothing if only one element without value is present", () => {
+    const { container } = render(<RichTextRenderer data={emptyRichtextData} />);
+    expect(container.innerHTML).toBe("");
+  });
+
+  test("renders the element if one element with value is present", () => {
+    const html = "<div><div><p><span>Hello World</span></p></div></div>";
+    const { container } = render(
+      <RichTextRenderer data={oneElementRichtextData} />
+    );
     expect(container.innerHTML).toBe(html);
   });
 });

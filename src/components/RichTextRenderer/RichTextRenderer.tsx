@@ -4,6 +4,7 @@ import type { ElementType, HTMLAttributes } from "react";
 import React from "react";
 import createElement from "../../utils/createElement";
 import createNode from "../../utils/node";
+import validateEmptyTree from "../../utils/validateEmptyTree";
 
 type Props<
   H1 extends ElementType,
@@ -66,7 +67,7 @@ export default function RichTextRenderer<
   ...props
 }: Props<H1, H2, H3, H4, H5, H6, Paragraph, List, ListItem, A, Text>) {
   if (data) {
-    let node: RichTextNode;
+    let node: RichTextNode | null = null;
     try {
       node = typeof data === "string" ? JSON.parse(data) : data;
     } catch (e) {
@@ -86,6 +87,10 @@ export default function RichTextRenderer<
       paragraph,
       text,
     };
+
+    node = validateEmptyTree(node);
+
+    if (!node) return null;
 
     return (
       <div {...props}>{createElement(createNode(node, elementProps))}</div>
