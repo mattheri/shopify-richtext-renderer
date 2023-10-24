@@ -1,6 +1,6 @@
 {
-  "name": "@novatize-mattheri/shopify-richtext-renderer",
-  "version": "0.0.14",
+  "name": "@mattheri/shopify-richtext-renderer",
+  "version": "1.0.0",
   "description": "A flexible, Hydrogen friendly renderer for the Shopify Richtext field type.",
   "keywords": [
     "shopify",
