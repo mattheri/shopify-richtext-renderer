@@ -5,6 +5,7 @@ import React from "react";
 import createElement from "../../utils/createElement";
 import createNode from "../../utils/node";
 import validateEmptyTree from "../../utils/validateEmptyTree";
+import baseNode from "../../utils/baseNode";
 
 type Props<
   H1 extends ElementType,
@@ -21,24 +22,9 @@ type Props<
 > = HTMLAttributes<HTMLElement> &
   ElementProps<H1, H2, H3, H4, H5, H6, Paragraph, List, ListItem, A, Text> & {
     data: string | RichTextNode;
+    enableMarkdownSyntax?: boolean;
   };
 
-function getBaseNode(text: string): RichTextNode {
-  return {
-    type: "root",
-    children: [
-      {
-        type: "paragraph",
-        children: [
-          {
-            type: "text",
-            value: text,
-          },
-        ],
-      },
-    ],
-  };
-}
 export default function RichTextRenderer<
   H1 extends ElementType = "h1",
   H2 extends ElementType = "h2",
@@ -70,8 +56,8 @@ export default function RichTextRenderer<
     let node: RichTextNode | null = null;
     try {
       node = typeof data === "string" ? JSON.parse(data) : data;
-    } catch (e) {
-      node = typeof data === "string" ? getBaseNode(data) : getBaseNode("");
+    } catch {
+      node = typeof data === "string" ? baseNode(data) : baseNode();
     }
 
     const elementProps = {
