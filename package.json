@@ -1,6 +1,10 @@
 {
-  "name": "@mattheri/shopify-richtext-renderer",
-  "version": "1.0.0",
+  "name": "@matthei/shopify-richtext-renderer",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mattheri/shopify-richtext-renderer"
+  },
+  "version": "1.0.1",
   "description": "A flexible, Hydrogen friendly renderer for the Shopify Richtext field type.",
   "keywords": [
     "shopify",
@@ -19,7 +23,7 @@
     "lint": "eslint --no-error-on-unmatched-pattern --ext .js,.ts,.jsx,.tsx .",
     "lint:fix": "eslint --no-error-on-unmatched-pattern --ext .js,.ts,.jsx,.tsx . --fix"
   },
-  "author": "Novatize",
+  "author": "mattheri",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.22.15",

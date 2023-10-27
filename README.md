@@ -6,29 +6,30 @@ A flexible, fully typed, Hydrogen friendly, component to render correctly the da
 
 By default, the `RichTextRenderer` will render all elements without any attributes and style. The only style applied, will be `fontStyle: italic` or `fontWeight: bold` if a node is set as bold and/or italic. It will also render all headings as `p` elements
 to be friendly with SEO (you don't want 15 `h1`s in your page). All defaults can be changed either through a global configuration and/or granularly through props.
+
 ## Installation
 
 Install with npm
 
 ```bash
-  npm install @mattheri/shopify-richtext-renderer
+  npm install @matthei/shopify-richtext-renderer
 ```
-    
+
 ## Usage/Examples
 
 ### Simple usage
 
 ```typescript
-import type {RichTextNode} from '@mattheri/shopify-richtext-renderer'
+import type { RichTextNode } from "@matthei/shopify-richtext-renderer";
 
-import {RichTextRenderer} from '@mattheri/shopify-richtext-renderer'
+import { RichTextRenderer } from "@matthei/shopify-richtext-renderer";
 
 type Props = {
   richText: string | RichTextNode;
-}
+};
 
-function App({richText}: Props) {
-  return <RichTextRenderer data={richText} />
+function App({ richText }: Props) {
+  return <RichTextRenderer data={richText} />;
 }
 ```
 
@@ -37,9 +38,9 @@ function App({richText}: Props) {
 Each element can receive any props that can be normally passed to an HTML Element.
 
 ```typescript
-import type {RichTextNode} from '@mattheri/shopify-richtext-renderer'
+import type {RichTextNode} from '@matthei/shopify-richtext-renderer'
 
-import {RichTextRenderer} from '@mattheri/shopify-richtext-renderer'
+import {RichTextRenderer} from '@matthei/shopify-richtext-renderer'
 
 type Props = {
   richText: string | RichTextNode;
@@ -47,7 +48,7 @@ type Props = {
 
 function App({richText}: Props) {
   return (
-    <RichTextRenderer 
+    <RichTextRenderer
       data={richText}
       h1={{
         className: 'text-2xl'
@@ -93,20 +94,20 @@ function App({richText}: Props) {
 Another element can be passed either as a prop or through the global config.
 
 ```typescript
-import type {RichTextNode} from '@mattheri/shopify-richtext-renderer'
+import type { RichTextNode } from "@matthei/shopify-richtext-renderer";
 
-import {RichTextRenderer} from '@mattheri/shopify-richtext-renderer'
+import { RichTextRenderer } from "@matthei/shopify-richtext-renderer";
 
 type Props = {
   richText: string | RichTextNode;
-}
+};
 
-function App({richText}: Props) {
+function App({ richText }: Props) {
   return (
-    <RichTextRenderer 
+    <RichTextRenderer
       data={richText}
       h1={{
-        as: 'span'
+        as: "span",
       }}
     />
   );
@@ -118,21 +119,21 @@ function App({richText}: Props) {
 A custom component can also be passed individually to render the elements. Simply make sure that it can render children as the nested elements are passed as childrens internally.
 
 ```typescript
-import type {RichTextNode} from '@mattheri/shopify-richtext-renderer'
+import type { RichTextNode } from "@matthei/shopify-richtext-renderer";
 
-import {RichTextRenderer} from '@mattheri/shopify-richtext-renderer'
-import MyHeading from './MyHeading'
+import { RichTextRenderer } from "@matthei/shopify-richtext-renderer";
+import MyHeading from "./MyHeading";
 
 type Props = {
   richText: string | RichTextNode;
-}
+};
 
-function App({richText}: Props) {
+function App({ richText }: Props) {
   return (
-    <RichTextRenderer 
+    <RichTextRenderer
       data={richText}
       h1={{
-        as: MyHeading
+        as: MyHeading,
       }}
     />
   );
@@ -148,22 +149,22 @@ The configuration options accept the same properties as their props counterparts
 
 ```typescript
 // richtext-config.ts
-import type {Config} from '@mattheri/shopify-richtext-renderer'
+import type { Config } from "@matthei/shopify-richtext-renderer";
 
-import MyHeading from './MyHeading'
+import MyHeading from "./MyHeading";
 
 export const config: Config = {
   h1: {
     as: MyHeading,
-    className: 'text-2xl'
-  }
-}
+    className: "text-2xl",
+  },
+};
 ```
 
 ```typescript
 // root.tsx
-import {config} from './richtext-config'
-import {setRichtextRendererConfig} from '@mattheri/shopify-richtext-renderer'
+import { config } from "./richtext-config";
+import { setRichtextRendererConfig } from "@matthei/shopify-richtext-renderer";
 
 // Call this directly in the file to make sure that there are no hydratation error.
 setRichtextRendererConfig(config);
