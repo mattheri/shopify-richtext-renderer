@@ -1,5 +1,5 @@
 {
-  "name": "@mattheri/shopify-richtext-renderer",
+  "name": "@novatize-mattheri/shopify-richtext-renderer",
   "version": "1.0.0",
   "description": "A flexible, Hydrogen friendly renderer for the Shopify Richtext field type.",
   "keywords": [
@@ -54,5 +54,8 @@
   "files": [
     "dist"
   ],
-  "types": "dist/index.d.ts"
+  "types": "dist/index.d.ts",
+  "dependencies": {
+    "marked": "^12.0.2"
+  }
 }

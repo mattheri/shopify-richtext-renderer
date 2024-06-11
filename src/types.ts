@@ -1,10 +1,11 @@
 import type {
+  CSSProperties,
+  ComponentPropsWithoutRef,
+  ElementType,
   FunctionComponent,
   HTMLAttributes,
-  ElementType,
-  ComponentPropsWithoutRef,
-  CSSProperties,
 } from "react";
+
 import type { RichtextrendererConfig } from "./utils/richtextRendererConfig";
 
 export type RichTextNode = {
@@ -27,6 +28,22 @@ export type RichTextNode = {
   listType?: "ordered" | "unordered";
 };
 
+export type AugmentedType =
+  | "root"
+  | "paragraph"
+  | "list"
+  | "list-item"
+  | "heading"
+  | "text"
+  | "link"
+  | "strong"
+  | "em";
+
+export type AugmentedRichTextNode = Omit<RichTextNode, "type" | "children"> & {
+  type: AugmentedType;
+  children?: AugmentedRichTextNode[];
+};
+
 export type FutureReactNode = {
   type: string | FunctionComponent<any>;
   attributes: {
@@ -35,6 +52,7 @@ export type FutureReactNode = {
     target?: string;
     title?: string;
     style?: CSSProperties;
+    [key: string]: any;
   };
   children?: string | FutureReactNode[];
 };
@@ -56,7 +74,9 @@ export type ElementProps<
   List extends ElementType,
   ListItem extends ElementType,
   A extends ElementType,
-  Text extends ElementType
+  Text extends ElementType,
+  Strong extends ElementType,
+  Em extends ElementType
 > = {
   h1?: ReactElementAttributes<H1>;
   h2?: ReactElementAttributes<H2>;
@@ -64,15 +84,19 @@ export type ElementProps<
   h4?: ReactElementAttributes<H4>;
   h5?: ReactElementAttributes<H5>;
   h6?: ReactElementAttributes<H6>;
-  paragraph?: ReactElementAttributes<Paragraph>;
+  p?: ReactElementAttributes<Paragraph>;
   list?: ReactElementAttributes<List>;
   listItem?: ReactElementAttributes<ListItem>;
   a?: ReactElementAttributes<A>;
   text?: ReactElementAttributes<Text>;
+  strong?: ReactElementAttributes<Strong>;
+  em?: ReactElementAttributes<Em>;
 };
 
 export type NormalizedElementProps = {
   [P in keyof ElementProps<
+    any,
+    any,
     any,
     any,
     any,
@@ -88,6 +112,8 @@ export type NormalizedElementProps = {
 };
 
 export type ElementPropsGeneric = ElementProps<
+  any,
+  any,
   any,
   any,
   any,

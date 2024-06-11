@@ -1,8 +1,8 @@
-import type { Config } from "../src";
-
 import React from "react";
+
 import { render } from "@testing-library/react";
 
+import type { Config } from "../src";
 import { RichTextRenderer, setRichtextRendererConfig } from "../src";
 
 const richTextData =
@@ -35,14 +35,14 @@ describe("RichTextRenderer", () => {
 
   test("renders correct HTML with rich text data", () => {
     const html =
-      "<div><div><p><span>Award-winning mineral sunscreens formulated with non-nano zinc oxide, the safest sunscreen according to the EWG.</span></p></div></div>";
+      "<div><p><span>Award-winning mineral sunscreens formulated with non-nano zinc oxide, the safest sunscreen according to the EWG.</span></p></div>";
     const { container } = render(<RichTextRenderer data={richTextData} />);
 
     expect(container.innerHTML).toBe(html);
   });
 
   test("renders correct HTML with string data", () => {
-    const html = "<div><div><p><span>Hello World</span></p></div></div>";
+    const html = "<div><p><span>Hello World</span></p></div>";
     const { container } = render(<RichTextRenderer data="Hello World" />);
 
     expect(container.innerHTML).toBe(html);
@@ -50,7 +50,7 @@ describe("RichTextRenderer", () => {
 
   test("renders correct attributes with global configuration", () => {
     const config: Config = {
-      paragraph: {
+      p: {
         attributes: {
           className: "paragraph",
         },
@@ -59,7 +59,7 @@ describe("RichTextRenderer", () => {
 
     setRichtextRendererConfig(config);
     const html =
-      '<div><div><p class="paragraph"><span>Award-winning mineral sunscreens formulated with non-nano zinc oxide, the safest sunscreen according to the EWG.</span></p></div></div>';
+      '<div><p class="paragraph"><span>Award-winning mineral sunscreens formulated with non-nano zinc oxide, the safest sunscreen according to the EWG.</span></p></div>';
     const { container } = render(<RichTextRenderer data={richTextData} />);
 
     expect(container.innerHTML).toBe(html);
@@ -67,12 +67,9 @@ describe("RichTextRenderer", () => {
 
   test("renders correct attributes with props local configuration", () => {
     const html =
-      '<div><div><p class="paragraph"><span>Award-winning mineral sunscreens formulated with non-nano zinc oxide, the safest sunscreen according to the EWG.</span></p></div></div>';
+      '<div><p class="paragraph"><span>Award-winning mineral sunscreens formulated with non-nano zinc oxide, the safest sunscreen according to the EWG.</span></p></div>';
     const { container } = render(
-      <RichTextRenderer
-        data={richTextData}
-        paragraph={{ className: "paragraph" }}
-      />
+      <RichTextRenderer data={richTextData} p={{ className: "paragraph" }} />
     );
 
     expect(container.innerHTML).toBe(html);
@@ -80,7 +77,7 @@ describe("RichTextRenderer", () => {
 
   test("renders props attributes if they are clashing with global configuration attributes", () => {
     const config: Config = {
-      paragraph: {
+      p: {
         attributes: {
           className: "paragraph",
         },
@@ -90,11 +87,11 @@ describe("RichTextRenderer", () => {
     setRichtextRendererConfig(config);
 
     const html =
-      '<div><div><p class="paragraph-props"><span>Award-winning mineral sunscreens formulated with non-nano zinc oxide, the safest sunscreen according to the EWG.</span></p></div></div>';
+      '<div><p class="paragraph-props"><span>Award-winning mineral sunscreens formulated with non-nano zinc oxide, the safest sunscreen according to the EWG.</span></p></div>';
     const { container } = render(
       <RichTextRenderer
         data={richTextData}
-        paragraph={{ className: "paragraph-props" }}
+        p={{ className: "paragraph-props" }}
       />
     );
 
@@ -103,7 +100,7 @@ describe("RichTextRenderer", () => {
 
   test("renders correct custom element with global configuration", () => {
     const config: Config = {
-      paragraph: {
+      p: {
         as: "div",
       },
     };
@@ -111,7 +108,7 @@ describe("RichTextRenderer", () => {
     setRichtextRendererConfig(config);
 
     const html =
-      "<div><div><div><span>Award-winning mineral sunscreens formulated with non-nano zinc oxide, the safest sunscreen according to the EWG.</span></div></div></div>";
+      "<div><div><span>Award-winning mineral sunscreens formulated with non-nano zinc oxide, the safest sunscreen according to the EWG.</span></div></div>";
     const { container } = render(<RichTextRenderer data={richTextData} />);
 
     expect(container.innerHTML).toBe(html);
@@ -119,9 +116,9 @@ describe("RichTextRenderer", () => {
 
   test("renders correct custom element with props local configuration", () => {
     const html =
-      "<div><div><div><span>Award-winning mineral sunscreens formulated with non-nano zinc oxide, the safest sunscreen according to the EWG.</span></div></div></div>";
+      "<div><div><span>Award-winning mineral sunscreens formulated with non-nano zinc oxide, the safest sunscreen according to the EWG.</span></div></div>";
     const { container } = render(
-      <RichTextRenderer data={richTextData} paragraph={{ as: "div" }} />
+      <RichTextRenderer data={richTextData} p={{ as: "div" }} />
     );
 
     expect(container.innerHTML).toBe(html);
@@ -138,7 +135,7 @@ describe("RichTextRenderer", () => {
     );
 
     const config: Config = {
-      paragraph: {
+      p: {
         as: FancyReactElement,
       },
     };
@@ -146,7 +143,7 @@ describe("RichTextRenderer", () => {
     setRichtextRendererConfig(config);
 
     const html =
-      '<div><div><div data-fancy-el="true"><span>Award-winning mineral sunscreens formulated with non-nano zinc oxide, the safest sunscreen according to the EWG.</span></div></div></div>';
+      '<div><div data-fancy-el="true"><span>Award-winning mineral sunscreens formulated with non-nano zinc oxide, the safest sunscreen according to the EWG.</span></div></div>';
     const { container } = render(<RichTextRenderer data={richTextData} />);
 
     expect(container.innerHTML).toBe(html);
@@ -163,12 +160,9 @@ describe("RichTextRenderer", () => {
     );
 
     const html =
-      '<div><div><div data-fancy-el="true"><span>Award-winning mineral sunscreens formulated with non-nano zinc oxide, the safest sunscreen according to the EWG.</span></div></div></div>';
+      '<div><div data-fancy-el="true"><span>Award-winning mineral sunscreens formulated with non-nano zinc oxide, the safest sunscreen according to the EWG.</span></div></div>';
     const { container } = render(
-      <RichTextRenderer
-        data={richTextData}
-        paragraph={{ as: FancyReactElement }}
-      />
+      <RichTextRenderer data={richTextData} p={{ as: FancyReactElement }} />
     );
 
     expect(container.innerHTML).toBe(html);
@@ -180,7 +174,7 @@ describe("RichTextRenderer", () => {
   });
 
   test("renders the element if one element with value is present", () => {
-    const html = "<div><div><p><span>Hello World</span></p></div></div>";
+    const html = "<div><span><span>Hello World</span></span></div>";
     const { container } = render(
       <RichTextRenderer data={oneElementRichtextData} />
     );

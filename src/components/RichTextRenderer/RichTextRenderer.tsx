@@ -1,11 +1,9 @@
-import type { ElementProps, RichTextNode } from "../../types";
-import type { ElementType, HTMLAttributes } from "react";
-
+import type { ElementType } from "react";
 import React from "react";
-import createElement from "../../utils/createElement";
-import createNode from "../../utils/node";
-import validateEmptyTree from "../../utils/validateEmptyTree";
-import baseNode from "../../utils/baseNode";
+
+import { useRichtextRenderer } from "../../hooks";
+import { Plugin } from "../../plugins";
+import type { ElementProps, RichTextNode } from "../../types";
 
 type Props<
   H1 extends ElementType,
@@ -18,12 +16,27 @@ type Props<
   List extends ElementType,
   ListItem extends ElementType,
   A extends ElementType,
-  Text extends ElementType
-> = HTMLAttributes<HTMLElement> &
-  ElementProps<H1, H2, H3, H4, H5, H6, Paragraph, List, ListItem, A, Text> & {
-    data: string | RichTextNode;
-    enableMarkdownSyntax?: boolean;
-  };
+  Text extends ElementType,
+  Strong extends ElementType,
+  Em extends ElementType
+> = ElementProps<
+  H1,
+  H2,
+  H3,
+  H4,
+  H5,
+  H6,
+  Paragraph,
+  List,
+  ListItem,
+  A,
+  Text,
+  Strong,
+  Em
+> & {
+  data: string | RichTextNode;
+  plugins?: Plugin[] | Plugin;
+};
 
 export default function RichTextRenderer<
   H1 extends ElementType = "h1",
@@ -36,51 +49,28 @@ export default function RichTextRenderer<
   List extends ElementType = "ul",
   ListItem extends ElementType = "li",
   A extends ElementType = "a",
-  Text extends ElementType = "span"
+  Text extends ElementType = "span",
+  Strong extends ElementType = "strong",
+  Em extends ElementType = "em"
 >({
   data,
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  list,
-  listItem,
-  a,
-  paragraph,
-  text,
   ...props
-}: Props<H1, H2, H3, H4, H5, H6, Paragraph, List, ListItem, A, Text>) {
-  if (data) {
-    let node: RichTextNode | null = null;
-    try {
-      node = typeof data === "string" ? JSON.parse(data) : data;
-    } catch {
-      node = typeof data === "string" ? baseNode(data) : baseNode();
-    }
+}: Props<
+  H1,
+  H2,
+  H3,
+  H4,
+  H5,
+  H6,
+  Paragraph,
+  List,
+  ListItem,
+  A,
+  Text,
+  Strong,
+  Em
+>) {
+  const Element = useRichtextRenderer(data, props);
 
-    const elementProps = {
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6,
-      list,
-      listItem,
-      a,
-      paragraph,
-      text,
-    };
-
-    node = validateEmptyTree(node);
-
-    if (!node) return null;
-
-    return (
-      <div {...props}>{createElement(createNode(node, elementProps))}</div>
-    );
-  }
-  return null;
+  return Element;
 }

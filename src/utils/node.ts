@@ -1,45 +1,49 @@
+import withPlugin from "../plugins/dev/utils/withPlugin";
 import type {
+  AugmentedRichTextNode,
   ElementPropsGeneric,
   FutureReactNode,
   RichTextNode,
 } from "../types";
+import augmentNode from "./augmentNode";
 import provideNodeProperties from "./provideNodeProperties";
 
-export default function createNode(
-  node: RichTextNode,
+export default withPlugin(function createNode(
+  node: RichTextNode | AugmentedRichTextNode,
   elementProps?: ElementPropsGeneric
 ): FutureReactNode {
-  const { type, nodeAttributes } = provideNodeProperties(node, elementProps);
-
-  const styles = [
-    node.bold ? ["fontWeight", "bold"] : [],
-    node.italic ? ["fontStyle", "italic"] : [],
-  ];
+  const augmentedNode = augmentNode(node);
+  const { type, nodeAttributes } = provideNodeProperties(
+    augmentedNode,
+    elementProps
+  );
 
   const url = nodeAttributes?.href ?? node.url;
   const target = nodeAttributes?.target ?? node.target;
 
   const attributes = {
-    key: `${node.type}-${Math.random().toString(36)}`,
+    key: `${augmentedNode.type}-${Math.random().toString(36)}`,
     ...(nodeAttributes ?? {}),
     ...(url ? { href: url } : {}),
     ...(target ? { target } : node.type === "link" ? { target: "_blank" } : {}),
-    ...(node.title ? { title: node.title } : {}),
-    ...(node.bold || node.italic
+    ...(augmentedNode.title ? { title: node.title } : {}),
+    ...(augmentedNode.bold || augmentedNode.italic
       ? {
           style: {
-            ...Object.fromEntries(styles),
             ...(nodeAttributes?.style ?? {}),
           },
         }
       : {}),
   };
 
+  const t = withPlugin(createNode, "before_node_creation");
+
   return {
     type,
     attributes,
     children:
-      node.value ||
-      node.children?.map((child) => createNode(child, elementProps)),
+      augmentedNode.value ||
+      augmentedNode.children?.map((child) => t(child, elementProps)),
   };
-}
+},
+"before_node_creation");

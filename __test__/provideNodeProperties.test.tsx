@@ -1,8 +1,8 @@
-import type { RichTextNode, Config } from "../src";
-
 import React from "react";
-import provideNodeProperties from "../src/utils/provideNodeProperties";
+
+import type { Config, RichTextNode } from "../src";
 import { setRichtextRendererConfig } from "../src";
+import provideNodeProperties from "../src/utils/provideNodeProperties";
 
 describe("provideNodeProperties", () => {
   test("should return a node type and node attributes", () => {
@@ -50,7 +50,7 @@ describe("provideNodeProperties", () => {
       children: [],
     };
     const expected = {
-      type: "p",
+      type: "span",
       nodeAttributes: {},
     };
 
@@ -126,7 +126,7 @@ describe("provideNodeProperties", () => {
 
     expect(
       provideNodeProperties(node, {
-        paragraph: {
+        p: {
           as: "div",
           className: "paragraph",
         },
@@ -150,7 +150,7 @@ describe("provideNodeProperties", () => {
       },
     };
     const config: Config = {
-      paragraph: {
+      p: {
         as: "div",
         attributes: {
           className: "paragraph",
@@ -178,7 +178,7 @@ describe("provideNodeProperties", () => {
       },
     };
     const config: Config = {
-      paragraph: {
+      p: {
         as: "p",
         attributes: {
           className: "paragraph-props",
@@ -189,7 +189,7 @@ describe("provideNodeProperties", () => {
 
     expect(
       provideNodeProperties(node, {
-        paragraph: {
+        p: {
           as: "div",
           className: "paragraph",
         },
@@ -215,7 +215,7 @@ describe("provideNodeProperties", () => {
       },
     };
     const config: Config = {
-      paragraph: {
+      p: {
         as: TestElement,
         attributes: {
           className: "paragraph",

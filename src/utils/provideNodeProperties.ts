@@ -1,84 +1,33 @@
-import type {
-  RichTextNode,
-  NormalizedElementProps,
-  ElementPropsGeneric,
-} from "../types";
-import type { FunctionComponent } from "react";
-
+import type { AugmentedRichTextNode, ElementPropsGeneric } from "../types";
+import { KEY_MAP, NODETYPES_MAP } from "./constants";
+import getNodeType from "./getNodeType";
+import getNormalizedElementProps from "./getNormalizedElementProps";
+import type { RichtextRendererConfigKeys } from "./richtextRendererConfig";
 import richtextrendererConfig from "./richtextRendererConfig";
 
-const nodeTypeMap = {
-  heading: ["p", "p", "p", "p", "p", "p"],
-  list: {
-    ordered: "ol",
-    unordered: "ul",
-  },
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  "list-item": "li",
-  link: "a",
-  paragraph: "p",
-  text: "span",
-  break: "br",
-};
-
-const keyMap: { [P in RichTextNode["type"]]: string } = {
-  heading: "heading",
-  list: "list",
-  link: "a",
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  "list-item": "listItem",
-  paragraph: "paragraph",
-  text: "text",
-  root: "root",
-};
-
 export default function provideNodeProperties(
-  node: RichTextNode,
+  node: AugmentedRichTextNode,
   elementProps?: ElementPropsGeneric
 ) {
   const nodeLevel = node.level ?? 1;
-  let defaultNode: string;
-
-  if (node.type === "heading") {
-    defaultNode = nodeTypeMap.heading[nodeLevel - 1];
-  } else if (node.type === "list") {
-    defaultNode = nodeTypeMap.list[node.listType ?? "unordered"];
-  } else if (node.type === "root") {
-    defaultNode = "div";
-  } else {
-    defaultNode = nodeTypeMap[node.type];
-  }
+  const defaultNode = getNodeType(node);
 
   const key = (
-    node.level || node.type === "heading" ? `h${nodeLevel}` : keyMap[node.type]
-  ) as keyof typeof richtextrendererConfig;
-  const elementPropsAttributesOnly = Object.entries(elementProps ?? {}).reduce(
-    (acc, [_key, value]) => {
-      if (!value) return acc;
+    node.level || node.type === "heading" ? `h${nodeLevel}` : KEY_MAP[node.type]
+  ) as RichtextRendererConfigKeys;
+  const elementPropsAttributesOnly = getNormalizedElementProps(elementProps);
 
-      const tValue = Object.assign({}, value);
-      const key = _key as keyof ElementPropsGeneric;
-      delete tValue.as;
-      acc[key] = tValue;
-
-      return acc;
-    },
-    {} as NormalizedElementProps
-  );
-
-  let type: string | FunctionComponent;
-
-  if (!node.value && node.type === "text") {
-    type = nodeTypeMap.break;
-  } else {
-    type =
-      elementProps?.[key]?.as ?? richtextrendererConfig[key]?.as ?? defaultNode;
-  }
+  const type =
+    !node.value && node.type === "text"
+      ? NODETYPES_MAP.break
+      : elementProps?.[key]?.as ??
+        richtextrendererConfig[key]?.as ??
+        defaultNode;
 
   return {
     type,
     nodeAttributes:
-      type === nodeTypeMap.break
+      type === NODETYPES_MAP.break
         ? null
         : {
             ...(richtextrendererConfig[key]?.attributes ?? {}),

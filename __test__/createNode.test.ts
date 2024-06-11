@@ -22,12 +22,21 @@ describe("createNode", () => {
       type: "p",
       attributes: {
         title: "Hello world!",
-        style: {
-          fontWeight: "bold",
-          fontStyle: "italic",
-        },
+        style: {},
       },
-      children: "Hello world!",
+      children: [
+        {
+          type: "strong",
+          attributes: {},
+          children: [
+            {
+              type: "em",
+              attributes: {},
+              children: "Hello world!",
+            },
+          ],
+        },
+      ],
     };
 
     expect(createNode(node)).toMatchObject(expected);
@@ -43,7 +52,7 @@ describe("createNode", () => {
       children: [],
     };
     const elementProps: ElementPropsGeneric = {
-      paragraph: {
+      p: {
         style: {
           color: "red",
         },
@@ -54,12 +63,22 @@ describe("createNode", () => {
       attributes: {
         title: "Hello world!",
         style: {
-          fontWeight: "bold",
-          fontStyle: "italic",
           color: "red",
         },
       },
-      children: "Hello world!",
+      children: [
+        {
+          type: "strong",
+          attributes: {},
+          children: [
+            {
+              type: "em",
+              attributes: {},
+              children: "Hello world!",
+            },
+          ],
+        },
+      ],
     };
 
     expect(createNode(node, elementProps)).toMatchObject(expected);
@@ -75,7 +94,7 @@ describe("createNode", () => {
       children: [],
     };
     const config: Config = {
-      paragraph: {
+      p: {
         attributes: {
           style: {
             color: "blue",
@@ -90,12 +109,22 @@ describe("createNode", () => {
       attributes: {
         title: "Hello world!",
         style: {
-          fontWeight: "bold",
-          fontStyle: "italic",
           color: "blue",
         },
       },
-      children: "Hello world!",
+      children: [
+        {
+          type: "strong",
+          attributes: {},
+          children: [
+            {
+              type: "em",
+              attributes: {},
+              children: "Hello world!",
+            },
+          ],
+        },
+      ],
     };
 
     expect(createNode(node)).toMatchObject(expected);
